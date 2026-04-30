@@ -1,0 +1,15 @@
+#!/bin/bash
+
+while read -r _ local_sha _ remote_sha; do
+  if [[ "$remote_sha" == "0000000000000000000000000000000000000000" ]]; then
+    range="$local_sha"
+  else
+    range="$remote_sha..$local_sha"
+  fi
+  if [[ -n "$(git rev-list -n 1 --regexp-ignore-case --extended-regexp --grep '^(\[wip\]|wip:)' "$range")" ]]; then
+    echo "Blocked: WIP in commit message."
+    exit 1
+  fi
+done
+
+exit 0

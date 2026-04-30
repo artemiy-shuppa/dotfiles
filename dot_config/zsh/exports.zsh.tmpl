@@ -1,0 +1,33 @@
+# exports — environment variables (editor, terminal, history, timezone)
+
+auto_select_editor() {
+  local editors=("nvim" "vim" "vi")
+  local editor
+  for editor in "${editors[@]}"; do
+    if command -v "$editor" >/dev/null 2>&1; then
+      export EDITOR="$editor"
+      return 0
+    fi
+  done
+  [[ "$ZSHRC_DEBUG" == "true" ]] && print "[.zshrc] Error: can't set EDITOR env"
+  return 1
+}
+
+auto_select_editor
+
+## Terminal
+export TERM=screen-256color
+
+## Timezone
+export TZ="{{ .timezone }}"
+
+## History
+export HISTFILE="$HOME/.zsh_history"
+export HISTSIZE=10000
+export SAVEHIST=20000
+
+setopt APPEND_HISTORY       # append to history file instead of overwriting
+setopt INC_APPEND_HISTORY   # write each command immediately (important for multiple tmux panes)
+setopt EXTENDED_HISTORY     # store timestamps alongside commands
+setopt HIST_IGNORE_DUPS     # don't record consecutive duplicate entries
+setopt HIST_IGNORE_SPACE    # don't record entries starting with a space

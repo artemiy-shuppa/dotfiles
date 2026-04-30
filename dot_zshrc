@@ -1,0 +1,72 @@
+#!/usr/bin/env zsh
+# Modular Zsh Configuration
+
+ZSH_CONFIG_DIR="$HOME/.config/zsh"
+ZSHRC_DEBUG="${ZSHRC_DEBUG:-false}"
+
+# =============================================================================
+# Utility Functions
+# =============================================================================
+
+source_if_exist() {
+  local file="$1"
+  if [[ "$file" != /* ]]; then
+    print "[.zshrc] Critical Error: only absolute paths allowed, got '$file'" >&2
+    return 1
+  fi
+  if [ -f "$file" ]; then
+    source "$file"
+  else
+    [[ "$ZSHRC_DEBUG" == "true" ]] && print "[.zshrc] Error: can't source file '$file'" >&2
+  fi
+}
+
+add_to_path() {
+  local dir="$1"
+  local prepend="${2:-false}"
+  if [[ "$dir" != /* ]]; then
+    print "[.zshrc] Critical Error: only absolute paths allowed, got '$dir'" >&2
+    return 1
+  fi
+  if [[ ":$PATH:" == *":$dir:"* ]]; then
+    [[ "$ZSHRC_DEBUG" == "true" ]] && print "[.zshrc] Warning: '$dir' already in PATH" >&2
+    return 0
+  fi
+  if [[ "$prepend" == "true" ]]; then
+    export PATH="$dir:$PATH"
+  else
+    export PATH="$PATH:$dir"
+  fi
+  if ! is_exist "$dir"; then
+    [[ "$ZSHRC_DEBUG" == "true" ]] && print "[.zshrc] Warning: directory does not exist '$dir'" >&2
+  fi
+}
+
+# =============================================================================
+# Module Loading System
+# =============================================================================
+load_zsh_modules() {
+  local dir="$1"
+  if ! [ -d "$dir" ]; then
+    print "[.zshrc] Warning: '$dir' not exist, skipping load any modules" >&2
+    return
+  fi
+  local count=0
+  # (N) = nullglob: no error if no files match
+  for file in "$dir"/*.zsh(N); do
+    source_if_exist "$file"
+    (( count++ ))
+    [[ "$ZSHRC_DEBUG" == "true" ]] && print "[.zshrc] Info: successfully sourced '$file'"
+  done
+  [[ "$ZSHRC_DEBUG" == "true" ]] && print "[.zshrc] Info: successfully sourced $count files"
+}
+
+load_zsh_modules "$ZSH_CONFIG_DIR"
+
+# =============================================================================
+# Aliases
+# =============================================================================
+alias reload="source ~/.zshrc"
+
+# If something appeared after this line, try to use a module in $ZSH_CONFIG_DIR instead!
+# END

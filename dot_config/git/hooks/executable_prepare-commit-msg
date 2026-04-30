@@ -1,0 +1,21 @@
+#!/bin/bash
+# Prepend staged diff stat to the commit template so the change list appears
+# above the conventional-commit guide rather than below it.
+
+commit_msg_file="$1"
+commit_source="${2:-}"
+
+# Skip for merges, squashes, and amends — they already have meaningful messages
+case "$commit_source" in
+  merge|squash|commit) exit 0 ;;
+esac
+
+diff_stat=$(git diff --cached --stat 2>/dev/null)
+[[ -n "$diff_stat" ]] || exit 0
+
+{
+  printf '# Changes staged for commit:\n'
+  printf '%s\n' "$diff_stat" | sed 's/^/# /'
+  printf '#\n'
+  cat "$commit_msg_file"
+} > "${commit_msg_file}.tmp" && mv "${commit_msg_file}.tmp" "$commit_msg_file"

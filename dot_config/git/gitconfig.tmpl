@@ -1,0 +1,44 @@
+[init]
+  defaultBranch = main
+
+[user]
+  email = {{ .email }}
+  name = {{ .name }}
+
+[core]
+  editor = vim
+  hooksPath = ~/.config/git/hooks
+
+[commit]
+  template = ~/.config/git/templates/commit-message
+  gpgSign = true
+
+[gpg]
+  format = ssh
+
+[gpg "ssh"]
+  allowedSignersFile = ~/.config/git/allowed_signers
+
+[user]
+  # SSH key must exist at this path — provision keys before first commit
+  signingKey = ~/.ssh/ansible/id_ed25519_github
+
+[diff]
+  external = difft --color=always
+
+[alias]
+  s = status --short --untracked-files=all
+  st = status --untracked-files=all
+
+  glog = log --graph --pretty='format:%C(bold blue)%h%C(reset) %ad [%cr] %C(green)%an%C(reset) %C(auto)%d%C(reset)%n%s%n' --date=format:'%b %d, %H:%M' --branches
+  clog = log --graph --pretty='format:%C(bold blue)%h%C(reset) %s %C(auto)%d%C(reset)' --branches
+  ll = log --graph --pretty='format:%C(bold blue)%h%C(reset) %ad [%cr] %C(auto)%d%C(reset) %s' --oneline --stat --branches
+
+  diffwi = diff ; working and index
+  diffwr = diff HEAD ; working and repo
+  diffir = diff --cached ; index and repo
+
+  conflictfile = !git ls-files --unmerged | cut -f2 | sort -u
+
+[help]
+  autocorrect = 5

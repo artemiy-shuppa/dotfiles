@@ -1,0 +1,208 @@
+# ================================================================================
+# ~/.config/mise/config.toml — single source of truth for all dev tools
+# All formatters, linters, LSP servers, DAP adapters and other tools are listed here
+# Install: `mise install`
+# ================================================================================
+
+[tools]
+
+# --------------------------------------------------------------------------------
+# PYTHON
+# UV: Python package manager written in Rust (used by mise when we write `pipx:`
+#   it implies using uv under the hood
+#   https://mise.jdx.dev/dev-tools/backends/pipx.html#dependencies)
+# LSP: basedpyright (improved pyright fork with stricter type inference)
+# Formatter: ruff (also linter — one tool replacing black + isort + flake8)
+# Linter: ruff
+# DAP: debugpy
+# --------------------------------------------------------------------------------
+python = "latest"
+uv = "latest"
+"pipx:basedpyright" = "latest"
+"pipx:ruff" = "latest"
+"pipx:debugpy" = "latest"
+
+# --------------------------------------------------------------------------------
+# GO
+# LSP: gopls (official from the Go team)
+# Formatter: gofumpt (stricter than standard gofmt)
+# Linter: golangci-lint (linter aggregator)
+# DAP: delve (dlv)
+# Test: gotestsum (nicer output than standard go test)
+# --------------------------------------------------------------------------------
+go = "latest"
+"go:golang.org/x/tools/gopls" = "latest"
+gofumpt = "latest"
+golangci-lint = "latest"
+"go:github.com/go-delve/delve/cmd/dlv" = "latest"
+gotestsum = "latest"
+
+# --------------------------------------------------------------------------------
+# RUST
+# --------------------------------------------------------------------------------
+rust = "latest"
+
+# --------------------------------------------------------------------------------
+# LUA
+# LSP: lua-language-server (lua-ls)
+# Formatter: stylua
+# --------------------------------------------------------------------------------
+stylua = "latest"
+lua-language-server = "latest"
+
+# --------------------------------------------------------------------------------
+# BASH / SHELL
+# LSP: bash-language-server
+# Formatter: shfmt
+# Linter: shellcheck
+# Test: bats
+# --------------------------------------------------------------------------------
+"npm:bash-language-server" = "latest"
+shfmt = "latest"
+shellcheck = "latest"
+bats = "latest"
+
+# --------------------------------------------------------------------------------
+# ANSIBLE
+# LSP: ansible-language-server (@ansible/ansible-language-server)
+# Linter: ansible-lint
+# --------------------------------------------------------------------------------
+"npm:@ansible/ansible-language-server" = "latest"
+"pipx:ansible-lint" = "latest"
+
+# --------------------------------------------------------------------------------
+# TERRAFORM
+# LSP: terraform-ls (official from HashiCorp)
+# Formatter: built into terraform (`terraform fmt`)
+# Linter: tflint
+# --------------------------------------------------------------------------------
+terraform = "latest"
+terraform-ls = "latest"
+tflint = "latest"
+
+# --------------------------------------------------------------------------------
+# YAML
+# LSP: yaml-language-server (from RedHat)
+# Formatter: yamlfmt
+# Linter: yamllint
+# --------------------------------------------------------------------------------
+"npm:yaml-language-server" = "latest"
+"pipx:yamlfix" = "latest"
+yamllint = "latest"
+
+# --------------------------------------------------------------------------------
+# JSON
+# LSP: vscode-languageservers-extracted (vscode-json-language-server)
+# Formatter: prettier (universal — also covers yaml, markdown, css)
+# Linter: built into LSP (JSON Schema validation)
+# --------------------------------------------------------------------------------
+"npm:vscode-langservers-extracted" = "latest"
+prettier = "latest"
+
+# --------------------------------------------------------------------------------
+# TOML
+# LSP + Formatter + Linter: taplo
+# --------------------------------------------------------------------------------
+taplo = "latest"
+
+# --------------------------------------------------------------------------------
+# KUBERNETES
+# LSP: yaml-language-server with k8s schemas (see YAML section above)
+# Linter: kubeconform (validates manifests against k8s API schemas)
+#         kube-linter (checks best practices)
+# --------------------------------------------------------------------------------
+kubeconform = "latest"
+kube-linter = "latest"
+
+# --------------------------------------------------------------------------------
+# DOCKER
+# LSP: dockerfile-language-server-nodejs
+# Formatter: dockerfmt
+# Linter: hadolint (best linter for Dockerfile)
+# --------------------------------------------------------------------------------
+"npm:dockerfile-language-server-nodejs" = "latest"
+"go:github.com/reteps/dockerfmt" = "latest"
+hadolint = "latest"
+
+# --------------------------------------------------------------------------------
+# MARKDOWN
+# LSP: markdown-oxide (PKM / wiki-links / daily notes)
+#      ltex-ls-plus (grammar + spell check RU+EN via LanguageTool)
+#      harper-ls (spell check EN in code comments)
+# --------------------------------------------------------------------------------
+"cargo:https://github.com/Feel-ix-343/markdown-oxide" = "latest"
+"github:ltex-plus/ltex-ls-plus" = "latest"
+harper-ls = "latest"
+
+# --------------------------------------------------------------------------------
+# SHELL / TERMINAL UX
+# starship - prompt, direnv - env per dir, zoxide - smart cd
+# eza - ls, yazi - file manager, viddy - watch, fzf - fuzzy finder
+# carapace - shell completions, bat - cat
+# --------------------------------------------------------------------------------
+starship = "latest"
+direnv = "latest"
+zoxide = "latest"
+eza = "latest"
+yazi = "latest"
+viddy = "latest"
+fzf = "latest"
+carapace = "latest"
+bat = "latest"
+
+# --------------------------------------------------------------------------------
+# EDITORS & PARSING
+# tree-sitter — required for neovim (nvim-treesitter plugin)
+# --------------------------------------------------------------------------------
+neovim = "latest"
+tree-sitter = "latest"
+
+# --------------------------------------------------------------------------------
+# GIT / VCS
+# jj — Jujutsu VCS (used instead of git directly)
+# difftastic — structural diff (understands syntax, not just lines)
+# pre-commit — git hook manager (runs linters/formatters on commit)
+# github-cli (gh) — GitHub from the terminal (PRs, issues, releases)
+# chezmoi — dotfiles manager (this repo)
+# --------------------------------------------------------------------------------
+jj = "latest"
+pre-commit = "latest"
+difftastic = "latest"
+github-cli = "latest"
+chezmoi = "latest"
+
+# --------------------------------------------------------------------------------
+# SEARCH & NAVIGATION
+# ripgrep — grep, fd — find, tokei — code statistics
+# --------------------------------------------------------------------------------
+ripgrep = "latest"
+fd = "latest"
+tokei = "latest"
+
+# --------------------------------------------------------------------------------
+# TASK RUNNERS & MAINTENANCE
+# just — command runner (like make but sane syntax, per-project justfiles)
+# topgrade — upgrades everything in one shot (mise tools, dnf, pip, etc.)
+# --------------------------------------------------------------------------------
+just = "latest"
+topgrade = "latest"
+
+# --------------------------------------------------------------------------------
+# DOCS / HELP
+# tldr — simplified man pages with practical examples
+# cheat — create and view interactive cheatsheets
+# --------------------------------------------------------------------------------
+"pipx:tldr" = "latest"
+cheat = "latest"
+
+# --------------------------------------------------------------------------------
+# DATA PROCESSING
+# jq — JSON processor (filter, transform, query JSON from the CLI)
+# --------------------------------------------------------------------------------
+jq = "latest"
+
+# --------------------------------------------------------------------------------
+# AI
+# claude — Claude Code CLI
+# --------------------------------------------------------------------------------
+claude = "latest"

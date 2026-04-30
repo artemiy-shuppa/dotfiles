@@ -1,0 +1,105 @@
+[user]
+name = "{{ .name }}"
+email = "{{ .email }}"
+
+[signing]
+backend = "ssh"
+# SSH key must exist at this path — provision keys before first commit
+key = "~/.ssh/ansible/id_ed25519_github.pub"
+behavior = "own"
+
+[ui]
+editor = "vim"
+default-command = ["log"]
+diff-editor = ":builtin"
+
+[revset-aliases]
+'closest_bookmark(to)' = 'heads(::to & bookmarks())'
+'stack' = 'ancestors(@, 10) ~ ancestors(trunk())'
+'mine' = 'author(exact:"{{ .name }} <{{ .email }}>")'
+
+[aliases]
+# --- Git interop ---
+launch = ["git", "init", "--git-repo", "."] # init jj over existing git repo
+push = ["git", "push", "--bookmark"]        # jj push <bookmark>
+fetch = ["git", "fetch"]                    # jj fetch
+sync = ["git", "fetch", "--all-remotes"]    # jj sync — fetch all remotes
+
+# --- Log variants ---
+l = ["log", "--limit", "8"]   # jj l — recent 8
+ll = ["log", "--limit", "20"] # jj ll — recent 20
+lm = ["log", "-r", "mine"]    # jj lm — my changes
+ls = ["log", "-r", "stack"]   # jj ls — current stack only
+la = ["log", "-r", "all()"]   # jj la — all changes
+lr = ["log", "--reversed"]    # jj lr — oldest first
+
+# --- Navigation ---
+co = ["edit"]             # jj co <rev> — checkout/edit a change
+up = ["next", "--edit"]   # jj up — move up the stack
+down = ["prev", "--edit"] # jj down — move down the stack
+
+# --- Description / commit ---
+msg = ["describe"] # jj msg — set description
+cm = ["commit"]    # jj cm — commit (snapshot + describe)
+
+# --- Bookmark management ---
+tug = [
+  "bookmark",
+  "move",
+  "--from",
+  "closest_bookmark(@)",
+  "--to",
+  "@-",
+] # move nearest bookmark to @-
+tugme = [
+  "bookmark",
+  "move",
+  "--from",
+  "closest_bookmark(@)",
+  "--to",
+  "@",
+] # move nearest bookmark to @
+tugto = [
+  "bookmark",
+  "move",
+  "--from",
+  "closest_bookmark(@)",
+  "--to",
+] # move nearest bookmark to <rev>
+tome = ["bookmark", "move", "--to", "@", "--from"] # jj move <bookmark>
+drag = [
+  "bookmark",
+  "move",
+  "--allow-backwards",
+  "--to",
+  "@",
+  "--from",
+] # jj drag <bookmark> — force move
+
+# --- Rebase helpers ---
+rb = ["rebase", "-d"]             # jj rb <dest> — rebase @ onto dest
+rbs = ["rebase", "-s", "@", "-d"] # jj rbs <dest>  — rebase subtree onto dest
+
+# --- Operation log ---
+opl = ["op", "log"] # jj ops — operation log
+
+# --- Diff ---
+d = ["diff"]              # jj d
+ds = ["diff", "--stat"]   # jj ds — diffstat
+dp = ["diff", "-r", "@-"] # jj dp — diff of parent
+
+sh = ["show"] # jj show
+
+[templates]
+# draft_commit_description is generated from .chezmoitemplates/commit_guide so
+# the conventional-commit hints stay in sync with the git commit template.
+draft_commit_description = '''description
+ ++ surround("\nJJ: This commit contains the following changes:\n", "", indent("JJ: ", diff.stat(72)))
+{{- range (splitList "\n" (include ".chezmoitemplates/commit_guide" | trimSuffix "\n")) -}}
+{{- if hasPrefix "# " . }}
+ ++ "JJ: {{ trimPrefix "# " . }}\n"
+{{- else if eq . "#" }}
+ ++ "JJ:\n"
+{{- end -}}
+{{- end }}
+'''

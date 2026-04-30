@@ -1,0 +1,23 @@
+'$schema' = 'https://starship.rs/config-schema.json'
+
+format = "$directory${custom.jj}$fill$python$golang\n$character"
+
+[custom.jj]
+command = "jj log --no-graph -r 'closest_bookmark(@)' -T 'bookmarks.map(|b| b ).join(\" | \")'"
+when = "jj log --no-graph -r 'closest_bookmark(@)' | grep -q ."
+format = "[$symbol $output]($style)"
+symbol = ""
+style = "bold green"
+
+[fill]
+symbol = " "
+
+[python]
+symbol = ""
+format = '[$symbol ${pyenv_prefix}($version )(\($virtualenv\) )]($style)'
+style = "bold yellow"
+
+[golang]
+symbol = ""
+format = "[$symbol $version]($style) "
+style = "bold cyan"

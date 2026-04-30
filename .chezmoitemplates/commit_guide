@@ -1,0 +1,36 @@
+# <type>(<scope>): <short summary>
+# │       │             │
+# │       │             └─ Imperative, present tense. No period at end. Max 72 chars.
+# │       └─ Optional: module, file, or area (e.g. auth, api, ui, deps)
+# └─ Type: feat | fix | docs | style | refactor | perf | test | build | ci | chore | revert
+#
+# ─────────────────────────────────────────────────────────────────────────────
+# BODY (optional) — explain *what* and *why*, not *how*. Wrap at 72 chars.
+#
+# ─────────────────────────────────────────────────────────────────────────────
+# FOOTER (optional)
+#
+# Breaking change:
+# BREAKING CHANGE: <description of what breaks and migration path>
+#
+# Issue references:
+# Closes #<issue>
+# Refs #<issue>
+#
+# Co-authors:
+# Co-authored-by: Name <email>
+#
+# ─────────────────────────────────────────────────────────────────────────────
+# TYPE REFERENCE
+#
+# feat     ✨  A new feature (triggers MINOR in semver)
+# fix      🐛  A bug fix (triggers PATCH in semver)
+# docs     📝  Documentation only
+# style    💄  Formatting, whitespace — no logic change
+# refactor ♻️  Code change that is neither feat nor fix
+# perf     ⚡  Performance improvement
+# test     ✅  Adding or fixing tests
+# build    🏗️  Build system or external dependency changes
+# ci       👷  CI/CD configuration changes
+# chore    🔧  Other changes (e.g. tooling, configs)
+# revert   ⏪  Reverts a previous commit
